@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/tuuro/plugins/init.lua
-return {
+return{
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.8',
@@ -94,6 +94,13 @@ return {
         }
     },
 
+    {
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        config = true
+        -- use opts = {} for passing setup options
+        -- this is equivalent to setup({}) function
+    },
     
 }
 

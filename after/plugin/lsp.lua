@@ -51,7 +51,12 @@ cmp.setup({
       vim.snippet.expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert({}),
+  mapping = cmp.mapping.preset.insert({
+        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ["<C-Space>"] = cmp.mapping.complete(),
+    }),
 })
 
 
