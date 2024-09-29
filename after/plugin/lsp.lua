@@ -24,7 +24,13 @@ lsp_zero.extend_lspconfig({
 })
 
 require('lspconfig').gopls.setup({})
-require('lspconfig').clangd.setup({})
+require('lspconfig').clangd.setup({
+    settings = {
+    clangd = {
+      fallbackFlags = { '--style={IndentWidth: 4}' },
+    },
+  },
+})
 
 
 require('mason').setup({})

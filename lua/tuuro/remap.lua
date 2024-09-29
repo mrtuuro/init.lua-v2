@@ -17,6 +17,15 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
+vim.keymap.set('n', "<leader>c", function()
+  local pos = vim.api.nvim_win_get_cursor(0)
+
+  vim.cmd('normal! ggVGG=')
+  vim.cmd('w')
+
+  vim.api.nvim_win_set_cursor(0, pos)
+end, { noremap = true, silent = true, desc = 'Reindent and save C file' })
+
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
