@@ -26,9 +26,17 @@ lsp_zero.extend_lspconfig({
 require('lspconfig').gopls.setup({})
 require('lspconfig').jdtls.setup({})
 require('lspconfig').clangd.setup({
+    cmd = {
+        "clangd",
+        "--compile-commands-dir=./build"
+    },
     settings = {
         clangd = {
-            fallbackFlags = { '--style={IndentWidth: 4}' },
+            fallbackFlags = {
+                '--style={IndentWidth: 4}',
+                '-I/opt/homebrew/Cellar/raylib/5.5/include',
+                '-L/opt/homebrew/Cellar/raylib/5.5/lib -lraylib'
+            },
         },
     },
 })

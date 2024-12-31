@@ -18,6 +18,16 @@ return{
         end,
     },
 
+    { 
+        "EdenEast/nightfox.nvim",
+    },
+
+    { "rose-pine/neovim", name = "rose-pine" },
+
+    { "catppuccin/nvim", name = "catppuccin" },
+
+    { "rebelot/kanagawa.nvim", name= "kanagawa"},
+
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',  -- Automatically update parsers after installing
