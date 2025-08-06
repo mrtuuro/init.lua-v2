@@ -6,13 +6,14 @@ local lsp_attach = function(client, bufnr)
     local opts = {buffer = bufnr}
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
     vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
     vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-    vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-    vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+    vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, {desc="Code actions"}, opts)
+    vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, {desc="Show references"}, opts)
     vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end
@@ -23,7 +24,34 @@ lsp_zero.extend_lspconfig({
     capabilities = require('cmp_nvim_lsp').default_capabilities(),
 })
 
-require('lspconfig').gopls.setup({})
+require('lspconfig').gopls.setup({
+    settings = {
+        gopls = {
+            buildFlags = { "-tags=integration"},
+            analyses = {
+                unusedparams = true,
+                unreachable = true,
+                nilness = true,
+                shadow = true,
+            },
+            staticcheck = true,
+            usePlaceholders = false,
+            gofumpt = true,  -- enforces stricter formatting
+        },
+    },
+})
+-- require('lspconfig').gopls.setup({})
+-- require('lspconfig').golangci_lint_ls.setup({
+--     cmd = { "golangci-lint-langserver" },
+--     filetypes = { "go", "gomod" },
+--     root_dir = require('lspconfig').util.root_pattern("go.work", "go.mod", ".git"),
+--     init_options = {
+--         command = { "golangci-lint", "run", "--out-format", "json" }
+--     }
+-- })
+
+require("lspconfig").lua_ls.setup({})
+
 require('lspconfig').jdtls.setup({})
 require('lspconfig').clangd.setup({
     cmd = {

@@ -1,4 +1,4 @@
-function ColorMyPencils(color)
+local function ColorMyPencils(color)
 
     vim.cmd('colorscheme kanagawa') -- terafox, carbonfox, duskfox, nightfox
     -- vim.cmd('colorscheme tokyonight') -- day, moon, night storm 
@@ -12,4 +12,10 @@ function ColorMyPencils(color)
 
 end
 
-ColorMyPencils()
+vim.api.nvim_create_autocmd("User", {
+    pattern = "LazyDone",
+    callback = function()
+        ColorMyPencils()
+    end,
+})
+

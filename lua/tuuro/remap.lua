@@ -17,16 +17,6 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
-vim.keymap.set('n', "<leader>c", function()
-  local pos = vim.api.nvim_win_get_cursor(0)
-
-  vim.cmd('normal! ggVGG=')
-  vim.cmd('w')
-
-  vim.api.nvim_win_set_cursor(0, pos)
-end, { noremap = true, silent = true, desc = 'Reindent and save C file' })
-
-
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
@@ -40,12 +30,29 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
-vim.keymap.set("n", "<leader>F", function ()
-   vim.cmd("%! goimports")
-end)
 
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+    vim.cmd("%!goimports")
+  end,
+})
+
+vim.keymap.set("n", "<leader>c", function()
+  vim.cmd("normal! ==")
+  vim.cmd("w")
+end, { noremap = true, silent = true, desc = 'Reindent line and save' })
+-- Reindent visual selection and save (only when in visual mode)
+vim.keymap.set("v", "<leader>c", ":normal ='<,'> | w<CR>", {
+  noremap = true,
+  silent = true,
+  desc = 'Reindent selection and save'
+})
+
+vim.keymap.set("n", "<leader>li", "<cmd>!golangci-lint run %<CR>", {desc = "Run golint on current file",silent = true,})
+
+vim.keymap.set("n", "<leader>ve", "<cmd>!go vet <CR>", {desc = "Run go vet on package",silent = true,})
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
@@ -67,9 +74,9 @@ end)
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+    desc = 'Highlight when yanking (copying) text',
+    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
 })
