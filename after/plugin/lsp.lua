@@ -52,6 +52,10 @@ require('lspconfig').gopls.setup({
 
 require("lspconfig").lua_ls.setup({})
 
+require('lspconfig').vtsls.setup{
+  -- settings = { typescript = { preferences = { importModuleSpecifier = "non-relative" } } }
+}
+
 require('lspconfig').jdtls.setup({})
 require('lspconfig').clangd.setup({
     cmd = {
